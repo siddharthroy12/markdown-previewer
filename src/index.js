@@ -66,7 +66,7 @@ function multiLineCode {
 ![A image!](https://blog.addthiscdn.com/wp-content/uploads/2014/11/addthis-react-flux-javascript-scaling.png)
 `
     const initialOutput = {
-      __html:marked(initialInput)
+      __html:marked(initialInput, {breaks:true})
     }
 
     this.state = {
@@ -77,7 +77,7 @@ function multiLineCode {
   }
 
   convert(change) {
-    let rawMarkup = marked(change.target.value)
+    let rawMarkup = marked(change.target.value, {breaks:true})
     rawMarkup = DOMPurify.sanitize(rawMarkup)
     this.setState({
       input:change.target.value,
