@@ -1,5 +1,7 @@
 A Markdown Previewer made using ReactJS.
 
+This project is not finished yet
+
 ## Available Scripts
 
 In the project directory, you can run:
