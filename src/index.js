@@ -1,17 +1,64 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDom from 'react-dom'
+import {Table, Navbar, Form} from 'react-bootstrap'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+import './index.css'
+
+function NavigationBar(props) {
+  return (
+    <div>
+      <Navbar bg="dark" variant="dark">
+        <Navbar.Brand>Markdown Previewer</Navbar.Brand>
+      </Navbar>
+    </div>
+  )
+}
+
+function InputBox(props) {
+  return (
+    <Form.Group controlId="input" className="InputBox">
+      <Form.Control as="textarea" className="InputArea"></Form.Control>
+    </Form.Group>
+  )
+}
+
+function OutputBox(props) {
+  return (
+    <div>
+      <h1>Hello</h1>
+    </div>
+  )
+}
+
+class MarkDownPreviewer extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <div className="MarkDownPreviewer">
+        <NavigationBar />
+        <Table bordered height="100%">
+          <thead>
+            <tr>
+              <th width="50%">MARKDOWN</th>
+              <th width="50%">PREVIEW</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style={{padding:0}}><InputBox></InputBox></td>
+              <td><OutputBox></OutputBox></td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
+    )
+  }
+}
+
+ReactDom.render(
+  <MarkDownPreviewer></MarkDownPreviewer>,
   document.getElementById('root')
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+)
