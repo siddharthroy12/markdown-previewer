@@ -33,6 +33,10 @@ function OutputBox(props) {
 class MarkDownPreviewer extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      input: "",
+      output: "",
+    }
   }
 
   render() {
