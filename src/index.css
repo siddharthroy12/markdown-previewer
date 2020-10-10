@@ -8,10 +8,18 @@
   overflow: hidden;
 }
 
-.InputArea {
+#editor {
   border: none;
   border-radius: 0;
   min-height: 83vh;
   max-height: 83vh;
+
   resize: none;
+}
+
+#preview {
+  min-height: 83vh;
+  max-height: 83vh;
+  max-width: 50vw;
+  min-width: 50vw;
 }

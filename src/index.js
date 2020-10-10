@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDom from 'react-dom'
 import {Table, Navbar, Form} from 'react-bootstrap'
+import marked from 'marked'
+import DOMPurify from 'dompurify';
 
 import './index.css'
 
@@ -16,16 +18,21 @@ function NavigationBar(props) {
 
 function InputBox(props) {
   return (
-    <Form.Group controlId="input" className="InputBox">
-      <Form.Control as="textarea" className="InputArea"></Form.Control>
+    <Form.Group className="InputBox">
+      <Form.Control
+        as="textarea"
+        className="InputArea"
+        id="editor"
+        onChange={props.onChange}
+        value={props.input}>
+      </Form.Control>
     </Form.Group>
   )
 }
 
 function OutputBox(props) {
   return (
-    <div>
-      <h1>Hello</h1>
+    <div id="preview" dangerouslySetInnerHTML={props.elements} className="OutputBox">
     </div>
   )
 }
@@ -33,10 +40,49 @@ function OutputBox(props) {
 class MarkDownPreviewer extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      input: "",
-      output: "",
+    const initialInput =
+`
+# This is a heading
+
+## This is a sub heading
+
+This is a link [links](https://www.freecodecamp.com)
+
+\`Here is some code\`
+
+\`\`\`
+function multiLineCode {
+
+}
+\`\`\`
+
+**A bold text**
+
+> A Block Quote
+
+- Lists
+  - Intented list
+
+![A image!](https://blog.addthiscdn.com/wp-content/uploads/2014/11/addthis-react-flux-javascript-scaling.png)
+`
+    const initialOutput = {
+      __html:marked(initialInput)
     }
+
+    this.state = {
+      input: initialInput,
+      output: initialOutput,
+    }
+    this.convert = this.convert.bind(this)
+  }
+
+  convert(change) {
+    let rawMarkup = marked(change.target.value)
+    rawMarkup = DOMPurify.sanitize(rawMarkup)
+    this.setState({
+      input:change.target.value,
+      output:{__html:rawMarkup}
+    })
   }
 
   render() {
@@ -46,14 +92,18 @@ class MarkDownPreviewer extends React.Component {
         <Table bordered height="100%">
           <thead>
             <tr>
-              <th width="50%">MARKDOWN</th>
-              <th width="50%">PREVIEW</th>
+              <th width="50%" style={{color:"grey"}}>MARKDOWN</th>
+              <th width="50%" style={{color:"grey"}}>PREVIEW</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={{padding:0}}><InputBox></InputBox></td>
-              <td><OutputBox></OutputBox></td>
+              <td style={{padding:0}}><InputBox input={this.state.input} onChange={this.convert}/></td>
+              <td style={{
+                overflow: "scroll"
+              }}>
+                <OutputBox elements={this.state.output}/>
+              </td>
             </tr>
           </tbody>
         </Table>
@@ -63,6 +113,6 @@ class MarkDownPreviewer extends React.Component {
 }
 
 ReactDom.render(
-  <MarkDownPreviewer></MarkDownPreviewer>,
+  <MarkDownPreviewer />,
   document.getElementById('root')
 )
