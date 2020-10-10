@@ -1,16 +1,17 @@
 .MarkDownPreviewer {
   height:100vh;
-  border: solid black;
   overflow: hidden;
 }
 
 .InputBox {
   height:100%;
+  overflow: hidden;
 }
 
 .InputArea {
   border: none;
   border-radius: 0;
-  height: 100%; /* Not Working */
-  overflow: scroll;
+  min-height: 83vh;
+  max-height: 83vh;
+  resize: none;
 }
