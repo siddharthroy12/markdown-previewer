@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import {Table, Navbar, Form} from 'react-bootstrap'
+import { Table, Navbar, Form } from 'react-bootstrap'
 import marked from 'marked'
-import DOMPurify from 'dompurify';
 
 import './index.css'
 
@@ -10,7 +9,12 @@ function NavigationBar(props) {
   return (
     <div>
       <Navbar bg="dark" variant="dark">
-        <Navbar.Brand>Markdown Previewer</Navbar.Brand>
+        <Navbar.Brand style={{marginLeft:"50px", fontSize:"1rem", width:"100%"}}>
+          Markdown Previewer
+        </Navbar.Brand>
+        <Navbar.Collapse>
+          <Navbar.Text style={{width:"150px"}}>By Siddharth Roy</Navbar.Text>
+        </Navbar.Collapse>
       </Navbar>
     </div>
   )
@@ -40,15 +44,21 @@ function OutputBox(props) {
 class MarkDownPreviewer extends React.Component {
   constructor(props) {
     super(props)
+    marked.setOptions({
+      gfm:true,
+      breaks: true,
+    })
     const initialInput =
 `
 # This is a heading
 
 ## This is a sub heading
 
-This is a link [links](https://www.freecodecamp.com)
+This is a link [Click Me!](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 \`Here is some code\`
+
+\`Had to remove dompurifier beacuse of freecodecamp test suit\`
 
 \`\`\`
 function multiLineCode {
@@ -66,7 +76,7 @@ function multiLineCode {
 ![A image!](https://www.photoshopessentials.com/newsite/wp-content/uploads/2012/10/80j.jpg)
 `
     const initialOutput = {
-      __html:marked(initialInput, {breaks:true})
+      __html:marked(initialInput)
     }
 
     this.state = {
@@ -77,8 +87,9 @@ function multiLineCode {
   }
 
   convert(change) {
-    let rawMarkup = marked(change.target.value, {breaks:true})
-    rawMarkup = DOMPurify.sanitize(rawMarkup)
+    let rawMarkup = marked(change.target.value)
+    // Had to remove this because of freecodecamp test suite
+    //rawMarkup = DOMPurify.sanitize(rawMarkup)
     this.setState({
       input:change.target.value,
       output:{__html:rawMarkup}
