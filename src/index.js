@@ -44,13 +44,14 @@ function OutputBox(props) {
 class MarkDownPreviewer extends React.Component {
   constructor(props) {
     super(props)
+    
     marked.setOptions({
       gfm:true,
       breaks: true,
     })
+
     const initialInput =
-`
-# This is a heading
+`# This is a heading
 
 ## This is a sub heading
 
@@ -73,8 +74,7 @@ function multiLineCode {
 - Lists
   - Intented list
 
-![A image!](https://www.photoshopessentials.com/newsite/wp-content/uploads/2012/10/80j.jpg)
-`
+![A image!](https://www.photoshopessentials.com/newsite/wp-content/uploads/2012/10/80j.jpg)`
     const initialOutput = {
       __html:marked(initialInput)
     }
@@ -111,7 +111,7 @@ function multiLineCode {
             <tr>
               <td style={{padding:0}}><InputBox input={this.state.input} onChange={this.convert}/></td>
               <td style={{
-                overflow: "scroll"
+                padding:"0"
               }}>
                 <OutputBox elements={this.state.output}/>
               </td>
